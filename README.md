@@ -1,4 +1,4 @@
-# Moddle_Spider
+# Moodle_Spider
 A little "Spider" that can help you to download files on Moodle more easily.
 
 Usage: 
@@ -24,6 +24,8 @@ Hope you enjoy it.
 Hello, welcome to my github site.
 Most of my programs are open-source, feel free to take any part you like.
 
-This Moddle_spider is a little program that will help you to download files more easily, The purpose why i am doing this is that 
-our professor upload too many files on the moodle, and sometimes i don't know if i have download all the things, you know, i am a
-lazy student, So i am thinking, why don't i just use a program to do this? So here you see the results.
+This Moodle_spider is a little program that will help you to download files more easily, The purpose why i am doing this is that 
+our professor upload too many files on the moodle, and sometimes i don't know if i have download them one by one, you know, i am a
+lazy student, So i am thinking, why don't i just use a program to do this? 
+
+So here you see the results.
