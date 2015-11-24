@@ -1,5 +1,6 @@
 __author__ = ' Harold '
 
+import os
 import urllib2
 import urllib
 import cookielib
@@ -38,11 +39,13 @@ def download_url(opener,url,filename):
 
     result = opener.open(url)
 
-    with open(filename,'wb') as output:
-        output.write(result.read())
+    if ~os.path.exists(filename) or os.path.getsize(filename) == 0:
+        with open(filename,'wb') as output:
+            output.write(result.read())
 
-def analyse_download_page(content,opener):
+def analyse_download_page(opener,url):
 
+    content = open_url(opener,url)
     soup = BeautifulSoup(content,'lxml')
     result_temp = soup.find_all(href = re.compile('forcedownload=1'))
     for each in result_temp:
@@ -54,18 +57,24 @@ def analyse_download_page(content,opener):
 
     print ('Current Folder download complete, moving on')
 
-def analyse_folder_page(content,opener,url):
+def analyse_folder_page(opener,url):
 
     key_string = 'https://sdc-moodle.samf.aau.dk/mod/folder/view.php?'
-
+    cwd = os.getcwd()
+    content = open_url(opener,url)
     soup = BeautifulSoup(content, 'lxml')
     result_temp = soup.find_all(href = re.compile(key_string))
     for each in result_temp:
         url = each.attrs['href']
         foldername = each.get_text()
-        each_content = open_url(opener,url)
+        # each_content = open_url(opener,url)
         print ('Downloading Folder : ' + foldername)
-        analyse_download_page(each_content,opener)
+
+        if ~os.path.exists(foldername):
+            os.mkdir(foldername)
+        os.chdir(cwd + '/' + foldername)
+        analyse_download_page(opener,url)
+        os.chdir(cwd)
 
 
 if __name__ == '__main__':
@@ -75,5 +84,4 @@ if __name__ == '__main__':
     file.close()
 
     opener = get_cookie()
-    content = open_url(opener,url)
-    analyse_download_page(content,opener)
+    analyse_folder_page(opener,url)
