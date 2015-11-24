@@ -4,6 +4,7 @@ import urllib2
 import urllib
 import cookielib
 from bs4 import BeautifulSoup
+import re
 
 def get_cookie():
 
@@ -12,6 +13,7 @@ def get_cookie():
     username = f.readline()
     pwd = f.readline()
     f.close()
+
     filename = 'cookie.txt'
 
     data={"username":username,"password":pwd, "rememberusername":"1"}
@@ -39,6 +41,17 @@ def download_url(opener,url,filename):
     with open(filename,'wb') as output:
         output.write(result.read())
 
+def analyze_download_page(content,opener):
+
+    soup = BeautifulSoup(content,'lxml')
+    result_temp = soup.find_all(href = re.compile('content'), class_ = False)
+    for each in result_temp:
+
+        url = each.attrs['href']
+        filename = each.get_text()
+        print ('Downloading ' + filename)
+        download_url(opener,url,filename)
+        
 if __name__ == '__main__':
 
     file = open('info.ini','r')
@@ -46,5 +59,5 @@ if __name__ == '__main__':
     file.close()
 
     opener = get_cookie()
-    # open_url(opener,url)
-    download_url(opener,url,'test456.pdf')
+    content = open_url(opener,url)
+    analyze_download_page(content,opener)
