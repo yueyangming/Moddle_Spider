@@ -41,7 +41,7 @@ def download_url(opener,url,filename):
     with open(filename,'wb') as output:
         output.write(result.read())
 
-def analyze_download_page(content,opener):
+def analyse_download_page(content,opener):
 
     soup = BeautifulSoup(content,'lxml')
     result_temp = soup.find_all(href = re.compile('content'), class_ = False)
@@ -51,7 +51,9 @@ def analyze_download_page(content,opener):
         filename = each.get_text()
         print ('Downloading ' + filename)
         download_url(opener,url,filename)
-        
+
+    print ('Current Folder download complete, moving on')
+
 if __name__ == '__main__':
 
     file = open('info.ini','r')
@@ -60,4 +62,4 @@ if __name__ == '__main__':
 
     opener = get_cookie()
     content = open_url(opener,url)
-    analyze_download_page(content,opener)
+    analyse_download_page(content,opener)
