@@ -44,7 +44,7 @@ def download_url(opener,url,filename):
 def analyse_download_page(content,opener):
 
     soup = BeautifulSoup(content,'lxml')
-    result_temp = soup.find_all(href = re.compile('content'), class_ = False)
+    result_temp = soup.find_all(href = re.compile('forcedownload=1'))
     for each in result_temp:
 
         url = each.attrs['href']
@@ -53,6 +53,20 @@ def analyse_download_page(content,opener):
         download_url(opener,url,filename)
 
     print ('Current Folder download complete, moving on')
+
+def analyse_folder_page(content,opener,url):
+
+    key_string = 'https://sdc-moodle.samf.aau.dk/mod/folder/view.php?'
+
+    soup = BeautifulSoup(content, 'lxml')
+    result_temp = soup.find_all(href = re.compile(key_string))
+    for each in result_temp:
+        url = each.attrs['href']
+        foldername = each.get_text()
+        each_content = open_url(opener,url)
+        print ('Downloading Folder : ' + foldername)
+        analyse_download_page(each_content,opener)
+
 
 if __name__ == '__main__':
 
