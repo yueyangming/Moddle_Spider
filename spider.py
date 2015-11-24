@@ -27,6 +27,7 @@ def get_cookie():
 
     cookie.save(ignore_discard=True,ignore_expires=True)
 
+    print ('Log in successfully, Begin downloading')
     return opener
 
 def open_url(opener,url):
@@ -39,7 +40,7 @@ def download_url(opener,url,filename):
 
     result = opener.open(url)
 
-    if ~os.path.exists(filename) or os.path.getsize(filename) == 0:
+    if not os.path.exists(filename) or os.path.getsize(filename) == 0:
         with open(filename,'wb') as output:
             output.write(result.read())
 
@@ -67,15 +68,32 @@ def analyse_folder_page(opener,url):
     for each in result_temp:
         url = each.attrs['href']
         foldername = each.get_text()
-        # each_content = open_url(opener,url)
         print ('Downloading Folder : ' + foldername)
 
-        if ~os.path.exists(foldername):
+        if not os.path.exists(foldername):
             os.mkdir(foldername)
         os.chdir(cwd + '/' + foldername)
         analyse_download_page(opener,url)
         os.chdir(cwd)
 
+def analyse_course(opener,url):
+
+    cwd = os.getcwd()
+    content = open_url(opener,url)
+    soup = BeautifulSoup(content,'lxml')
+    result_temp = soup.find_all('h3')
+    for each in result_temp:
+        temp = each.find('a')
+        url = temp.attrs['href']
+        coursename = temp.get_text()
+        print (' Downloading Course : ' + coursename)
+
+        if not os.path.exists(coursename):
+            os.mkdir(coursename)
+        os.chdir(cwd + '/' + coursename)
+        analyse_folder_page(opener,url)
+        analyse_folder_page(opener,url)
+        os.chdir(cwd)
 
 if __name__ == '__main__':
 
@@ -84,4 +102,4 @@ if __name__ == '__main__':
     file.close()
 
     opener = get_cookie()
-    analyse_folder_page(opener,url)
+    analyse_course(opener,url)
