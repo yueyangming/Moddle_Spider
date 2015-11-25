@@ -7,25 +7,17 @@ import cookielib
 from bs4 import BeautifulSoup
 import re
 
-def get_cookie():
-
-    f = open('info.ini','r')
-    url = f.readline()
-    username = f.readline()
-    pwd = f.readline()
-    f.close()
+def get_cookie(username,password):
 
     filename = 'cookie.txt'
 
-    data={"username":username,"password":pwd, "rememberusername":"1"}
+    data={"username":username,"password":password, "rememberusername":"1"}
     post_data=urllib.urlencode(data)
 
     cookie = cookielib.MozillaCookieJar(filename)
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
     loginUrl = 'https://sdc-moodle.samf.aau.dk/login/index.php'
     result = opener.open(loginUrl,post_data)
-
-    # cookie.save(ignore_discard=True,ignore_expires=True)
 
     print ('Log in successfully, Begin downloading')
     return opener
@@ -138,20 +130,32 @@ def select_major(major):
         url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=41'
     return url
 
-if __name__ == '__main__':
+def pure(str):
+    if str[len(str) - 1 ] == '\n':
+        str = str[0: len(str) - 1]
+    return str
+
+def init():
 
     file_info = open('info.ini', 'r')
-    major = file_info.readline()
+    major = pure( file_info.readline())
+    username = pure( file_info.readline())
+    password = pure( file_info.readline())
     file_info.close()
-    major = major[0: len(major) - 1]
 
+    return (major,username,password)
+
+
+if __name__ == '__main__':
+
+    (major,username,password) = init()
     try:
         url = select_major(major)
     except:
-        print('Wront input of major, Please check and try it again')
+        print('Wrong input of major, Please check and try it again')
         exit()
     try:
-        opener = get_cookie()
+        opener = get_cookie(username,password)
         analyse_course(opener,url)
         print('Everything download complete, enjoy')
     except:
