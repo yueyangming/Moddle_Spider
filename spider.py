@@ -1,4 +1,4 @@
-__author__ = ' Harold '
+__author__ = ' Harold (Finch) '
 
 import os
 import urllib2
@@ -25,7 +25,7 @@ def get_cookie():
     loginUrl = 'https://sdc-moodle.samf.aau.dk/login/index.php'
     result = opener.open(loginUrl,post_data)
 
-    cookie.save(ignore_discard=True,ignore_expires=True)
+    # cookie.save(ignore_discard=True,ignore_expires=True)
 
     print ('Log in successfully, Begin downloading')
     return opener
@@ -95,11 +95,37 @@ def analyse_course(opener,url):
         analyse_folder_page(opener,url)
         os.chdir(cwd)
 
+def select_major(major):
+    if major == 'NN':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=7'
+    if major == 'IM':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=6'
+    if major == 'PM':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=9'
+    if major == 'Nano':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=32'
+    if major == 'CBE':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=36'
+    if major == 'Omics':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=31'
+    if major == 'WE':
+        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=41'
+    return url
+
 if __name__ == '__main__':
 
     file = open('info.ini','r')
-    url = file.readline()
+    major = file.readline()
     file.close()
+    major = major[0: len(major) - 1]
 
-    opener = get_cookie()
-    analyse_course(opener,url)
+    try:
+        url = select_major(major)
+    except:
+        print('Wront input of major, Please check and try it again')
+        exit()
+    try:
+        opener = get_cookie()
+        analyse_course(opener,url)
+    except:
+        print('Something wrong, Please contact author Harold at 447903563@qq.com')

@@ -1,6 +1,0 @@
-# Netscape HTTP Cookie File
-# http://curl.haxx.se/rfc/cookie_spec.html
-# This is a generated file!  Do not edit.
-
-sdc-moodle.samf.aau.dk	FALSE	/	FALSE	1453536351	MOODLEID1_	%25A8X%2583%25BC%25C6%25B4%25D7%25FF%25F1%250A%25EB
-sdc-moodle.samf.aau.dk	FALSE	/	FALSE		MoodleSession	fpadk3t4b9604btk65qf28i3r6
