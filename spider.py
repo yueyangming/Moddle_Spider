@@ -38,11 +38,28 @@ def open_url(opener,url):
 
 def download_url(opener,url,filename):
 
-    result = opener.open(url)
+    folder_flag = 0
+    file_content = opener.open(url)
+
+    url_split = url.split('/')
+    if len(url_split) == 10:
+        folder_flag = 1
+        foldername = url_split[8]
+
+    cwd = os.getcwd()
+
+    if folder_flag:
+        if not os.path.exists(foldername):
+            os.mkdir(foldername)
+        os.chdir(cwd + '/' + foldername)
 
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
+        print ('Downloading ' + filename)
         with open(filename,'wb') as output:
-            output.write(result.read())
+            output.write(file_content.read())
+
+    if folder_flag :
+        os.chdir(cwd)
 
 def analyse_download_page(opener,url):
 
@@ -53,10 +70,9 @@ def analyse_download_page(opener,url):
 
         url = each.attrs['href']
         filename = each.get_text()
-        print ('Downloading ' + filename)
         download_url(opener,url,filename)
 
-    print ('Current Folder download complete, moving on')
+    print ('Current Folder download complete, moving to next one')
 
 def analyse_folder_page(opener,url):
 
@@ -65,6 +81,15 @@ def analyse_folder_page(opener,url):
     content = open_url(opener,url)
     soup = BeautifulSoup(content, 'lxml')
     result_temp = soup.find_all(href = re.compile(key_string))
+
+    result_file = soup.find_all(href = re.compile('resource/view.php'))
+    for each in result_file:
+        url = each.attrs['href']
+        filename = each.get_text()
+        temp = filename.replace(' File','.pdf')
+        filename = temp
+        download_url(opener,url,filename)
+
     for each in result_temp:
         url = each.attrs['href']
         foldername = each.get_text()
@@ -86,7 +111,7 @@ def analyse_course(opener,url):
         temp = each.find('a')
         url = temp.attrs['href']
         coursename = temp.get_text()
-        print (' Downloading Course : ' + coursename)
+        print ('Downloading Course : ' + coursename)
 
         if not os.path.exists(coursename):
             os.mkdir(coursename)
@@ -94,6 +119,7 @@ def analyse_course(opener,url):
         analyse_folder_page(opener,url)
         analyse_folder_page(opener,url)
         os.chdir(cwd)
+    print ('Course ' + coursename + ' Download Complete, moving to next one')
 
 def select_major(major):
     if major == 'NN':
@@ -114,9 +140,9 @@ def select_major(major):
 
 if __name__ == '__main__':
 
-    file = open('info.ini','r')
-    major = file.readline()
-    file.close()
+    file_info = open('info.ini', 'r')
+    major = file_info.readline()
+    file_info.close()
     major = major[0: len(major) - 1]
 
     try:
@@ -127,5 +153,6 @@ if __name__ == '__main__':
     try:
         opener = get_cookie()
         analyse_course(opener,url)
+        print('Everything download complete, enjoy')
     except:
         print('Something wrong, Please contact author Harold at 447903563@qq.com')
