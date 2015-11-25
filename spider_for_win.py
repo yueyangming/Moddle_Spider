@@ -6,6 +6,8 @@ import urllib
 import cookielib
 from bs4 import BeautifulSoup
 import re
+import ssl
+import lxml
 
 def get_cookie(username,password):
 
@@ -145,17 +147,23 @@ def init():
 
     return (major,username,password)
 
-if __name__ == '__main__':
 
-    (major,username,password) = init()
-    try:
-        url = select_major(major)
-    except:
-        print('Wrong input of major, Please check and try it again')
-        exit()
-    try:
-        opener = get_cookie(username,password)
-        analyse_course(opener,url)
-        print('Everything download complete, enjoy')
-    except:
-        print('Something wrong, Please contact author Harold at 447903563@qq.com')
+(major,username,password) = init()
+try:
+    url = select_major(major)
+except:
+    print('Wrong input of major, Please check and try it again')
+    exit()
+print('Logging in, Please wait')
+try:
+    ssl._create_default_https_context = ssl._create_unverified_context
+    opener = get_cookie(username,password)
+    analyse_course(opener,url)
+    print('Everything download complete, enjoy')
+except:
+    print('Something wrong, Please contact author Harold at 447903563@qq.com')
+    print ('Press enter to exit')
+    content = raw_input()
+    if (content!=''):
+        exit
+    
