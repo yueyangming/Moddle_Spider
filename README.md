@@ -1,8 +1,17 @@
 # Moodle_Spider
 A little "Spider" that can help you to download files on Moodle more easily.
 
+An important thing that you should know, if you want to run source code directly, you must install BeautifulSoup and lxml first, you can easily do it using pip or easy_install
+
+pip install BeautifulSoup4 ( it worked)
+pip lxml (it doesn't work on my windows)
+
+easy_install BeautifulSoup4 (Don't know if it works)
+easy_install lxml ( it works on my computer)
+
+Sorry, too tired, it's 0:49AM not, i will update it ASAP:)
 Usage: 
-First, you should create info.ini file , first line is your moddle site, second line is your username, third line is your password
+First, you should create info.ini file , first line is your major, second line is your username, third line is your password
 Then, you can run the main program, spider.py, The program will download files that you need automatically. Enjoy
 
 Features:
