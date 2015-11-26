@@ -80,6 +80,7 @@ def analyse_folder_page(opener,url):
     for each in result_file:
         url = each.attrs['href']
         filename = each.get_text()
+        filename = pure(filename)
         temp = filename.replace(' File','.pdf')
         filename = temp
         download_url(opener,url,filename)
@@ -87,6 +88,7 @@ def analyse_folder_page(opener,url):
     for each in result_temp:
         url = each.attrs['href']
         foldername = each.get_text()
+        foldername = pure(foldername)
         print ('Downloading Folder : ' + foldername)
 
         if not os.path.exists(foldername):
@@ -105,6 +107,7 @@ def analyse_course(opener,url):
         temp = each.find('a')
         url = temp.attrs['href']
         coursename = temp.get_text()
+        coursename = pure(coursename)
         print ('Downloading Course : ' + coursename)
 
         if not os.path.exists(coursename):
@@ -135,6 +138,9 @@ def select_major(major):
 def pure(str):
     if str[len(str) - 1 ] == '\n':
         str = str[0: len(str) - 1]
+
+    if str.find(':') > -1:
+        str = str.replace(':',' ')
     return str
 
 def init():
