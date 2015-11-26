@@ -39,7 +39,7 @@ This file means, a student major in Neuroscience and Neuroimaging  whose usernam
 
 I just tested it several times on my computer, It worked well on my computer, don't know if there will be any different situation...
 If there is, try to reboot the program and then try to contact me.
-My email address is 447923563@qq.com
+My email address is 447903563@qq.com
 
 Hope you will enjoy it!
 
