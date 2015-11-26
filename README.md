@@ -6,11 +6,15 @@ Most of my programs are open-source, feel free to take any part you like.
 
 An important thing that you should know, if you want to run source code directly, you must install BeautifulSoup and lxml first, you can easily do it using pip or easy_install
 
-pip install BeautifulSoup4 ( it worked)
-pip lxml (it doesn't work on my windows)
+pip install BeautifulSoup4            ( It worked)
 
-easy_install BeautifulSoup4 (Don't know if it works)
-easy_install lxml ( it works on my computer)
+pip lxml                              ( It doesn't work on my windows)
+
+
+easy_install BeautifulSoup4           ( Don't know if it works)
+
+easy_install lxml                     ( It works on my computer)
+
 
 How to use it ?
 
