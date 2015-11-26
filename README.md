@@ -1,6 +1,9 @@
 # Moodle_Spider
 A little "Spider" that can help you to download files on Moodle more easily.
 
+Hello, Welcome to my github site.
+Most of my programs are open-source, feel free to take any part you like.
+
 An important thing that you should know, if you want to run source code directly, you must install BeautifulSoup and lxml first, you can easily do it using pip or easy_install
 
 pip install BeautifulSoup4 ( it worked)
@@ -9,10 +12,38 @@ pip lxml (it doesn't work on my windows)
 easy_install BeautifulSoup4 (Don't know if it works)
 easy_install lxml ( it works on my computer)
 
-Sorry, too tired, it's 0:49AM not, i will update it ASAP:)
-Usage: 
-First, you should create info.ini file , first line is your major, second line is your username, third line is your password
-Then, you can run the main program, spider.py, The program will download files that you need automatically. Enjoy
+How to use it ?
+
+First, open 'info.ini' file, and change first line to your major code:
+
+Neuroscience and Neuroimaging : NN (default)
+Innovation Management : IM
+Public Management : PM
+Nanoscience & Technology : Nano
+Chemical & Biochemical Engineering : CBE
+Omics : Omics
+Water and Environment : WE
+
+Please notice there is some upper letter.
+
+Second line is your username to log in Moodle, (Because program also need to log in Moodle and then it can download files)
+Third line is your password to log in Moodle.
+
+In file info.ini, you will see three lines:
+
+NN
+username
+password
+
+This file means, a student major in Neuroscience and Neuroimaging  whose username is 'username' and his/her password is 'password', You know this can't happen,just give a example
+
+I just tested it several times on my computer, It worked well on my computer, don't know if there will be any different situation...
+If there is, try to reboot the program and then try to contact me.
+My email address is 447923563@qq.com
+
+Hope you will enjoy it!
+
+Harold (Finch)        From Neuroscience and Neuroscience program.
 
 Features:
 
@@ -27,11 +58,6 @@ Future work:  (maybe you can help :)
 page of different major and detect date to make sure it's first semester or second semester.)
 4. New ideas always come to me, so why not join me and make this project perfert?
 
-Hope you enjoy it.
-
-
-Hello, welcome to my github site.
-Most of my programs are open-source, feel free to take any part you like.
 
 This Moodle_spider is a little program that will help you to download files more easily, The purpose why i am doing this is that 
 our professor upload too many files on the moodle, and sometimes i don't know if i have download them one by one, you know, i am a
