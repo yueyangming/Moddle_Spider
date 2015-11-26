@@ -17,12 +17,21 @@ How to use it ?
 First, open 'info.ini' file, and change first line to your major code:
 
 Neuroscience and Neuroimaging : NN (default)
+
 Innovation Management : IM
+
 Public Management : PM
+
 Nanoscience & Technology : Nano
+
 Chemical & Biochemical Engineering : CBE
+
 Omics : Omics
+
 Water and Environment : WE
+
+
+
 
 Please notice there is some upper letter.
 
