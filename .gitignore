@@ -27,8 +27,6 @@ cookie.txt
 
 cookie.txt
 
-*.txt
-
 *.m
 
 *.tif
@@ -44,5 +42,3 @@ Fundamental Biomedical Signal Processing (FBSP)/1D Signal Processing (Jan Ole Pe
 *.doc
 
 cookie.txt
-
-spider_for_win.exe
