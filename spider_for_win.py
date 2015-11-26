@@ -21,7 +21,6 @@ def get_cookie(username,password):
     loginUrl = 'https://sdc-moodle.samf.aau.dk/login/index.php'
     result = opener.open(loginUrl,post_data)
 
-    print ('Log in successfully, Begin downloading')
     return opener
 
 def open_url(opener,url):
@@ -114,7 +113,6 @@ def analyse_course(opener,url):
             os.mkdir(coursename)
         os.chdir(cwd + '/' + coursename)
         analyse_folder_page(opener,url)
-        analyse_folder_page(opener,url)
         os.chdir(cwd)
     print ('Course ' + coursename + ' Download Complete, moving to next one')
 
@@ -164,8 +162,14 @@ print('Logging in, Please wait')
 try:
     ssl._create_default_https_context = ssl._create_unverified_context
     opener = get_cookie(username,password)
-    analyse_course(opener,url)
-    print('Everything download complete, enjoy')
+
+    content_temp = open_url(opener,url)
+    if len(content_temp) > 30000:
+        print ('Log in successfully, Begin downloading')
+        analyse_course(opener,url)
+        print('Everything download complete, enjoy')
+    else:
+        print ('Something with your info.ini or your internet, Please contact Harold at 447903563@qq.com ')
 except:
     print('Something wrong, Please contact author Harold at 447903563@qq.com')
     print ('Press enter to exit')

@@ -19,7 +19,6 @@ def get_cookie(username,password):
     loginUrl = 'https://sdc-moodle.samf.aau.dk/login/index.php'
     result = opener.open(loginUrl,post_data)
 
-    print ('Log in successfully, Begin downloading')
     return opener
 
 def open_url(opener,url):
@@ -153,9 +152,17 @@ if __name__ == '__main__':
     except:
         print('Wrong input of major, Please check and try it again')
         exit()
+    print('Logging in, Please wait')
     try:
         opener = get_cookie(username,password)
-        analyse_course(opener,url)
-        print('Everything download complete, enjoy')
+
+        content_temp = open_url(opener,url)
+        if len(content_temp) > 30000:
+            print ('Log in successfully, Begin downloading')
+            analyse_course(opener,url)
+            print('Everything download complete, enjoy')
+        else:
+            print ('Something wrong with info.ini or Internet, Please check, if need help, please contact Harold at 447903563@qq.com ')
+
     except:
         print('Something wrong, Please contact author Harold at 447903563@qq.com')
