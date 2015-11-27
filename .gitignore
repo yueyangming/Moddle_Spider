@@ -5,10 +5,6 @@
 
 *.html
 
-test.py
-
-test_spider.py
-
 *.xml
 
 .idea/moodle_spider.iml
@@ -16,14 +12,6 @@ test_spider.py
 .idea/.name
 
 info.ini
-
-cookie.txt
-
-cookie.txt
-
-cookie.txt
-
-cookie.txt
 
 cookie.txt
 
@@ -40,7 +28,5 @@ Fundamental Biomedical Signal Processing (FBSP)/1D Signal Processing (Jan Ole Pe
 *.png
 
 *.doc
-
-cookie.txt
 
 spider_test.py
