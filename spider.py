@@ -7,6 +7,14 @@ import cookielib
 from bs4 import BeautifulSoup
 import re
 
+global dict_number_to_major
+global dict_major_to_site
+dict_number_to_major = {'1' : 'NN', '2':'IM', '3':'PM','4':'Nano', '5' : 'CBE', '6' : 'Omics', '7' : 'WE'}
+dict_major_to_site = {'NN' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=7', 'IM' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=6',
+                      'PM' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=9', 'Nano' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=32',
+                      'CBE' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=36', 'Omics' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=31',
+                      'WE' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=41'}
+
 def get_cookie(username,password):
 
     filename = 'cookie.txt'
@@ -112,23 +120,6 @@ def analyse_course(opener,url):
         os.chdir(cwd)
     print ('Course ' + coursename + ' Download Complete, moving to next one')
 
-def select_major(major):
-    if major == 'NN':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=7'
-    if major == 'IM':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=6'
-    if major == 'PM':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=9'
-    if major == 'Nano':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=32'
-    if major == 'CBE':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=36'
-    if major == 'Omics':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=31'
-    if major == 'WE':
-        url = 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=41'
-    return url
-
 def pure(str):
     if str[len(str) - 1 ] == '\n':
         str = str[0: len(str) - 1]
@@ -136,33 +127,51 @@ def pure(str):
 
 def init():
 
-    file_info = open('info.ini', 'r')
-    major = pure( file_info.readline())
-    username = pure( file_info.readline())
-    password = pure( file_info.readline())
-    file_info.close()
+    if os.path.exists('info.ini'):
+        with open('info.ini','r') as file_info:
+            major = pure( file_info.readline())
+            username = pure( file_info.readline())
+            password = pure( file_info.readline())
 
-    return (major,username,password)
+        return (major,username,password)
+    else:
+        return generation()
+
+def generation():
+    global dict_number_to_major
+    print ('Not found ini file, create a new one')
+    print ('First, Select your major,  \n 1 for NN \n 2 for IM \n 3 for PM \n 4 for Nano \n 5 for CBE \n 6 for Omics \n 7 for WE \n ')
+    major_number = raw_input('Select your major number \n')
+    major_name = dict_number_to_major[major_number]
+    username = raw_input('Please input your username to log in Moodle \n')
+    password = raw_input('Please input your password to log in Moodle \n')
+
+    with open('info.ini','wb') as file_ini:
+        file_ini.write(major_name + '\n' + username + '\n' + password + '\n')
+
+    return (major_name,username,password)
 
 if __name__ == '__main__':
 
     (major,username,password) = init()
     try:
-        url = select_major(major)
+        url = dict_major_to_site[major]
     except:
         print('Wrong input of major, Please check and try it again')
         exit()
     print('Logging in, Please wait')
     try:
-        opener = get_cookie(username,password)
 
-        content_temp = open_url(opener,url)
-        if len(content_temp) > 30000:
+        opener = get_cookie(username,password)
+        log_in_url = 'https://sdc-moodle.samf.aau.dk/login/index.php'
+        content_temp = open_url(opener,log_in_url)
+        if 'You are logged in as ' in content_temp :
             print ('Log in successfully, Begin downloading')
             analyse_course(opener,url)
             print('Everything download complete, enjoy')
         else:
-            print ('Something wrong with info.ini or Internet, Please check, if need help, please contact Harold at 447903563@qq.com ')
+            print ('Log in failed')
+            print ('Maybe something wrong with info.ini or Internet, Please check, if need help, please contact Harold at 447903563@qq.com ')
 
     except:
         print('Something wrong, Please contact author Harold at 447903563@qq.com')
