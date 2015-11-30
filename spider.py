@@ -6,6 +6,9 @@ import urllib
 import cookielib
 from bs4 import BeautifulSoup
 import re
+import ssl
+import sys
+
 
 global dict_number_to_major
 global dict_major_to_site
@@ -92,6 +95,7 @@ def analyse_folder_page(opener,url):
     for each in result_temp:
         url = each.attrs['href']
         foldername = each.get_text()
+        foldername = pure(foldername)
         print ('Downloading Folder : ' + foldername)
 
         if not os.path.exists(foldername):
@@ -123,9 +127,17 @@ def analyse_course(opener,url):
 def pure(str):
     if str[len(str) - 1 ] == '\n':
         str = str[0: len(str) - 1]
+
+    if str.find(':') > -1:
+        str = str.replace(':',' ')
     return str
 
 def init():
+
+    # First three lines is for mac, don't know if it will cause some problems.
+    path_temp = sys.argv[0]
+    parent_path = os.path.dirname(path_temp)
+    os.chdir(parent_path)
 
     if os.path.exists('info.ini'):
         with open('info.ini','r') as file_info:
@@ -161,7 +173,7 @@ if __name__ == '__main__':
         exit()
     print('Logging in, Please wait')
     try:
-
+        ssl._create_default_https_context = ssl._create_unverified_context
         opener = get_cookie(username,password)
         log_in_url = 'https://sdc-moodle.samf.aau.dk/login/index.php'
         content_temp = open_url(opener,log_in_url)
