@@ -95,7 +95,7 @@ def analyse_folder_page(opener,url):
     for each in result_temp:
         url = each.attrs['href']
         foldername = each.get_text()
-        foldername = pure(foldername)
+        foldername = pure(foldername)        # For windows
         print ('Downloading Folder : ' + foldername)
 
         if not os.path.exists(foldername):
@@ -128,7 +128,7 @@ def pure(str):
     if str[len(str) - 1 ] == '\n':
         str = str[0: len(str) - 1]
 
-    if str.find(':') > -1:
+    if str.find(':') > -1:     # For windows
         str = str.replace(':',' ')
     return str
 
@@ -173,7 +173,7 @@ if __name__ == '__main__':
         exit()
     print('Logging in, Please wait')
     try:
-        ssl._create_default_https_context = ssl._create_unverified_context
+        ssl._create_default_https_context = ssl._create_unverified_context       # For windows
         opener = get_cookie(username,password)
         log_in_url = 'https://sdc-moodle.samf.aau.dk/login/index.php'
         content_temp = open_url(opener,log_in_url)
