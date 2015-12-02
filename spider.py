@@ -120,7 +120,6 @@ def analyse_course(opener,url):
             os.mkdir(coursename)
         os.chdir(cwd + '/' + coursename)
         analyse_folder_page(opener,url)
-        analyse_folder_page(opener,url)
         os.chdir(cwd)
     print ('Course ' + coursename + ' Download Complete, moving to next one')
 
