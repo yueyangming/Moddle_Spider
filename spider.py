@@ -12,11 +12,10 @@ import sys
 
 global dict_number_to_major
 global dict_major_to_site
-dict_number_to_major = {'1' : 'NN', '2':'IM', '3':'PM','4':'Nano', '5' : 'CBE', '6' : 'Omics', '7' : 'WE'}
+dict_number_to_major = {'1' : 'NN', '2':'IM', '3':'PM','4':'Nano', '5' : 'CBE', '6' : 'Omics'}
 dict_major_to_site = {'NN' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=15', 'IM' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=11',
                       'PM' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=18', 'Nano' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=33',
-                      'CBE' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=37', 'Omics' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=30',
-                      'WE' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=42'}
+                      'CBE' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=37', 'Omics' : 'https://sdc-moodle.samf.aau.dk/course/index.php?categoryid=30'}
 
 def get_cookie(username,password):
 
@@ -178,9 +177,9 @@ def init():
 
 def generation():
     global dict_number_to_major
-    print ('Not found ini file, create a new one')
-    print ('First, Select your major,  \n 1 for NN \n 2 for IM \n 3 for PM \n 4 for Nano \n 5 for CBE \n 6 for Omics \n 7 for WE \n ')
-    major_number = input('Select your major number \n')
+    print ('Not found ini file, will create a new one')
+    print ('First, Select your program name,  \n 1 for NN \n 2 for IM \n 3 for PM \n 4 for Nano \n 5 for CBE \n 6 for Omics \n ')
+    major_number = input('Select your program name number \n')
     major_name = dict_number_to_major[major_number]
     username = input('Please input your username to log in Moodle \n')
     password = input('Please input your password to log in Moodle \n')
@@ -196,11 +195,12 @@ if __name__ == '__main__':
     try:
         url = dict_major_to_site[major]
     except:
-        print('Wrong input of major, Please check and try it again')
+        print('Wrong input for program name, Please check and try it again')
+        input('Press enter to exit')
         exit()
     print('Logging in, Please wait')
     try:
-        # ssl._create_default_https_context = ssl._create_unverified_context       # For windows
+        ssl._create_default_https_context = ssl._create_unverified_context       # For windows
         opener = get_cookie(username,password)
         log_in_url = 'https://sdc-moodle.samf.aau.dk/login/index.php'
         content_temp = open_url(opener,log_in_url).decode('utf-8')
@@ -214,3 +214,4 @@ if __name__ == '__main__':
 
     except:
         print('Something wrong, Please contact author Harold at 447903563@qq.com')
+        input('Press enter to exit')
