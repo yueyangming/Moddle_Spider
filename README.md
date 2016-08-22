@@ -22,7 +22,7 @@ It's weird to see your password in this way, And i know it's not safe. I will fi
 
 
 I just tested it several times on my computer, It worked well on my computer, don't know if there will be any different situation...
-If something bad happened, first record the error message, and try to reboot program, then, you can contact me at 447903563@qq.com
+If something bad happened, first record the error message, and try to reboot program, then, you can contact me at 447903563#qq.com
 
 Hope you will enjoy it!
 
